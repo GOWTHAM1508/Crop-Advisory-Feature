@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Advisory - Crop Advisory</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .advisory-detail {
+            margin-bottom: 28px;
+        }
+
+        .advisory-detail h3 {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .advisory-detail p {
+            color: #555;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .advisory-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .stage-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 28px;
+        }
+
+        .stage-header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .stage-header .stage-info {
+            margin-top: 12px;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: #f0f0f0;
+            color: #333;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+
+        .back-button:hover {
+            background: #e0e0e0;
+        }
+
+        .harvest-signal {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .market-signal {
+            background: #e8f4f8;
+            border-left: 4px solid #17a2b8;
+            padding: 16px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .advisory-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .stage-header h1 {
+                font-size: 24px;
+            }
+
+            .stage-header {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="dashboard.html" class="back-button">← Back to Dashboard</a>
+
+        <div class="stage-header">
+            <h1 id="stage-title">Loading...</h1>
+            <div class="stage-info">
+                <span id="crop-name">Crop</span> •
+                <span id="day-range">Stage days</span>
+            </div>
+        </div>
+
+        <div class="advisory-grid">
+            <div class="advisory-detail">
+                <h3>🌱 Fertilizer</h3>
+                <p id="fertilizer">Loading...</p>
+            </div>
+
+            <div class="advisory-detail">
+                <h3>💧 Irrigation</h3>
+                <p id="irrigation">Loading...</p>
+            </div>
+
+            <div class="advisory-detail">
+                <h3>🐛 Pest Watch</h3>
+                <p id="pest-watch">Loading...</p>
+            </div>
+
+            <div class="advisory-detail">
+                <h3>🦠 Disease Risk</h3>
+                <p id="disease-risk">Loading...</p>
+            </div>
+        </div>
+
+        <div class="harvest-signal">
+            <h3 style="margin-top: 0; color: #856404;">✓ Harvest Signal</h3>
+            <p id="harvest-signal">Loading...</p>
+        </div>
+
+        <div class="market-signal">
+            <h3 style="margin-top: 0; color: #004085;">📊 Market Signal</h3>
+            <p id="market-signal">Loading...</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 32px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+            <a href="dashboard.html" class="back-button">← Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        function loadAdvisory() {
+            const params = new URLSearchParams(window.location.search);
+            const crop = params.get('crop');
+            const stageNum = parseInt(params.get('stage'));
+
+            if (!crop || !stageNum) {
+                document.body.innerHTML = '<div class="container"><p>Invalid advisory request.</p><a href="dashboard.html">Back to Dashboard</a></div>';
+                return;
+            }
+
+            fetch('advisory.json')
+                .then(res => res.json())
+                .then(data => {
+                    const stages = data[crop];
+                    const stage = stages.find(s => s.stage === stageNum);
+
+                    if (!stage) {
+                        document.body.innerHTML = '<div class="container"><p>Stage not found.</p><a href="dashboard.html">Back to Dashboard</a></div>';
+                        return;
+                    }
+
+                    // Capitalize crop name
+                    const cropDisplay = crop.charAt(0).toUpperCase() + crop.slice(1);
+
+                    // Populate advisory
+                    document.getElementById('stage-title').textContent = stage.name;
+                    document.getElementById('crop-name').textContent = cropDisplay;
+                    document.getElementById('day-range').textContent = `Day ${stage.day_start} - ${stage.day_end}`;
+                    document.getElementById('fertilizer').textContent = stage.fertilizer;
+                    document.getElementById('irrigation').textContent = stage.irrigation;
+                    document.getElementById('pest-watch').textContent = stage.pest_watch;
+                    document.getElementById('disease-risk').textContent = stage.disease_risk;
+                    document.getElementById('harvest-signal').textContent = stage.harvest_signal;
+                    document.getElementById('market-signal').textContent = stage.market_signal;
+                })
+                .catch(err => {
+                    console.error('Failed to load advisory:', err);
+                    document.body.innerHTML = '<div class="container"><p>Failed to load advisory data.</p><a href="dashboard.html">Back to Dashboard</a></div>';
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAdvisory);
+    </script>
+</body>
+</html>

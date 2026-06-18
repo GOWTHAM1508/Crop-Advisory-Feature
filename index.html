@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Registration - Crop Advisory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Farmer Registration</h1>
+        <p class="subtitle">Join our crop advisory network</p>
+
+        <div class="success-message" id="successMessage">
+            ✓ Registration successful! Thank you for joining.
+        </div>
+
+        <form id="registrationForm" novalidate>
+            <div class="form-group">
+                <label for="name">
+                    Farmer Name
+                    <span class="required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="name"
+                    name="farmerName"
+                    minlength="2"
+                    required
+                    placeholder="Enter your full name"
+                />
+                <div class="error-message">Name must be at least 2 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">
+                    Mobile Number
+                    <span class="required">*</span>
+                </label>
+                <input
+                    type="tel"
+                    id="mobile"
+                    name="mobileNumber"
+                    pattern="[0-9]{10}"
+                    required
+                    placeholder="10-digit mobile number"
+                />
+                <div class="error-message">Please enter a valid 10-digit mobile number</div>
+            </div>
+
+            <div class="form-group">
+                <label for="crop">
+                    Select Crop
+                    <span class="required">*</span>
+                </label>
+                <select id="crop" name="crop" required>
+                    <option value="">-- Choose a crop --</option>
+                    <option value="rice">Rice</option>
+                    <option value="tomato">Tomato</option>
+                    <option value="groundnut">Groundnut</option>
+                </select>
+                <div class="error-message">Please select a crop</div>
+            </div>
+
+            <div class="form-group">
+                <label for="sowingDate">
+                    Sowing Date
+                    <span class="required">*</span>
+                </label>
+                <input
+                    type="date"
+                    id="sowingDate"
+                    name="sowingDate"
+                    required
+                />
+                <div class="error-message">Sowing date cannot be in the future</div>
+            </div>
+
+            <div class="form-group">
+                <label for="district">
+                    District
+                    <span class="required">*</span>
+                </label>
+                <select id="district" name="district" required>
+                    <option value="">-- Choose your district --</option>
+                    <option value="chennai">Chennai</option>
+                    <option value="coimbatore">Coimbatore</option>
+                    <option value="madurai">Madurai</option>
+                    <option value="salem">Salem</option>
+                    <option value="tiruppur">Tiruppur</option>
+                    <option value="vellore">Vellore</option>
+                    <option value="erode">Erode</option>
+                    <option value="kanchipuram">Kanchipuram</option>
+                    <option value="villupuram">Villupuram</option>
+                    <option value="ramanathapuram">Ramanathapuram</option>
+                    <option value="Dindigul">Dindigul</option>
+                </select>
+                <div class="error-message">Please select your district</div>
+            </div>
+
+            <div class="form-group">
+                <label for="area">
+                    Land Area (acres)
+                    <span class="required">*</span>
+                </label>
+                <input
+                    type="number"
+                    id="area"
+                    name="landArea"
+                    min="0.5"
+                    max="50"
+                    step="0.5"
+                    required
+                    placeholder="0.5 to 50 acres"
+                />
+                <div class="error-message">Land area must be between 0.5 and 50 acres</div>
+            </div>
+
+            <div class="form-group">
+                <label for="language">
+                    Preferred Language
+                    <span class="required">*</span>
+                </label>
+                <select id="language" name="language" required>
+                    <option value="">-- Choose your language --</option>
+                    <option value="tamil">Tamil</option>
+                    <option value="telugu">Telugu</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="english">English</option>
+                </select>
+                <div class="error-message">Please select a language</div>
+            </div>
+
+            <button type="submit" id="registerBtn">Register</button>
+        </form>
+    </div>
+</body>
+</html>
+      <script src="app.js"></script>
+      
+      <script>// 1. On page load: if already registered, skip to dashboard
+ 
+ if (localStorage.getItem('farmerProfile')) {
+  window.location.href = 'dashboard.html';
+}
+
+// 2. Set max date on sowing date input to today
+document.getElementById('sowingDate').max = new Date().toISOString().split('T')[0];
+
+// 3. On submit button click:
+document.getElementById('registerBtn').addEventListener('click', function() {
+  // collect values
+  const name = document.getElementById('name').value;
+  const mobile = document.getElementById('mobile').value;
+  const crop = document.getElementById('crop').value;
+  const sowingDate = document.getElementById('sowingDate').value;
+  const district = document.getElementById('district').value;
+  const area = document.getElementById('area').value;
+  const language = document.getElementById('language').value;
+
+  // validate: check none are empty
+  if (!name || !mobile || !crop || !sowingDate || !district || !area || !language) {
+    alert('Please fill all fields.');
+    return;
+  }
+
+  // save to localStorage
+  const profile = { name, mobile, crop, sowingDate, district, area, language };
+  localStorage.setItem('farmerProfile', JSON.stringify(profile));
+
+  // redirect to dashboard
+  window.location.href = 'dashboard.html';
+});</script>
+</body>
+</html>

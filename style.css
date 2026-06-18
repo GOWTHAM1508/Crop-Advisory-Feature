@@ -1,0 +1,673 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #304087 0%, #8528e1 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.required {
+    color: #e74c3c;
+    margin-left: 4px;
+}
+
+/* Form input fields targeting by type and tag */
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+select {
+    padding: 12px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+input:invalid:not(:placeholder-shown),
+select:invalid {
+    border-color: #e74c3c;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.form-group.invalid .error-message {
+    display: block;
+}
+
+.form-group.invalid input,
+.form-group.invalid select {
+    border-color: #e74c3c;
+}
+
+/* Explicitly styling your new Register Button ID */
+#registerBtn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+    width: 100%; /* Makes the button look neat and full-width inside the form */
+}
+
+#registerBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+#registerBtn:active {
+    transform: translateY(0);
+}
+
+.success-message {
+    display: none;
+    background: #d4edda;
+    color: #155724;
+    padding: 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border: 1px solid #c3e6cb;
+    text-align: center;
+}
+
+.success-message.show {
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 24px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    select {
+        padding: 10px 12px;
+        font-size: 16px;
+    }
+}
+
+
+/* Stage Dot Interactive Styles */
+.stage-dot {
+    cursor: pointer;
+}
+
+.stage-dot:hover:not(.active):not(.completed) {
+    border-color: #667eea;
+    background: #f0f0f0;
+    transform: scale(1.1);
+}
+
+.stage-dot.active:hover {
+    transform: scale(1.15);
+}
+
+.stage-dot.completed:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(129, 199, 132, 0.4);
+}
+
+/* Modal Styles */
+.stage-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+.stage-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #f0f0f0;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: #e0e0e0;
+    color: #333;
+}
+
+#modal-stage-name {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 16px;
+    margin-top: 0;
+}
+
+.modal-stage-info {
+    background: #f8f9fa;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.modal-advisory-section {
+    margin-bottom: 20px;
+}
+
+.modal-advisory-section h3 {
+    color: #667eea;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+}
+
+.modal-advisory-section p {
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Back button button element styling */
+.back-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        max-width: 90%;
+        padding: 24px;
+        margin: 16px;
+    }
+
+    #modal-stage-name {
+        font-size: 22px;
+    }
+
+    .modal-close {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
+
+    .stage-dot:hover:not(.active):not(.completed) {
+        transform: scale(1.05);
+    }
+}
+
+/* Critical Stage Alert Banner */
+.critical-alert {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff3cd;
+    border-left: 5px solid #ff9800;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.alert-content h3 {
+    color: #856404;
+    margin: 0 0 4px 0;
+    font-size: 16px;
+}
+
+.alert-content p {
+    color: #856404;
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Edit Profile Button */
+.edit-profile-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 8px;
+    display: block;
+}
+
+.edit-profile-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Linear Progress Bar */
+.linear-progress-bar {
+    display: flex;
+    gap: 4px;
+    height: 32px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 4px;
+    overflow: hidden;
+}
+
+.progress-segment {
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #e8e8e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.progress-segment:hover {
+    filter: brightness(0.95);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.segment-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.segment-fill.completed {
+    background: linear-gradient(135deg, #81C784 0%, #66BB6A 100%);
+}
+
+.segment-fill.active {
+    background: linear-gradient(135deg, #4CAF50 0%, #43A047 100%);
+    animation: progressPulse 2s infinite;
+}
+
+@keyframes progressPulse {
+    0%, 100% {
+        box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.6);
+    }
+}
+
+.segment-fill.future {
+    background: #e0e0e0;
+}
+
+.segment-label {
+    position: relative;
+    z-index: 2;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.progress-segment.active .segment-label,
+.progress-segment:has(.segment-fill.completed) .segment-label {
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Edit Modal */
+.edit-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+}
+
+.edit-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-modal .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.edit-modal .modal-content {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+.edit-modal .modal-content h2 {
+    color: #333;
+    margin: 0 0 24px 0;
+    font-size: 24px;
+}
+
+.edit-modal .form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.edit-modal .form-group label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.form-control {
+    padding: 12px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.save-btn {
+    flex: 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.cancel-btn {
+    flex: 1;
+    background: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+    background: #e0e0e0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .critical-alert {
+        padding: 12px 16px;
+        gap: 12px;
+    }
+
+    .alert-icon {
+        font-size: 20px;
+    }
+
+    .alert-content h3 {
+        font-size: 14px;
+    }
+
+    .alert-content p {
+        font-size: 12px;
+    }
+
+    .linear-progress-bar {
+        height: 28px;
+    }
+
+    .segment-label {
+        font-size: 10px;
+    }
+
+    .edit-profile-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    .days-counter {
+        width: 100%;
+    }
+
+    .edit-modal .modal-content {
+        padding: 24px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+}
+
+/* Modal Header with Critical Tag */
+.modal-header-with-tag {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.modal-header-with-tag h2 {
+    margin: 0;
+    flex: 1;
+}
+
+.critical-tag {
+    display: inline-block;
+    background: #ff6b6b;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    animation: pulse 2s infinite;
+}
+
+@keyframes criticalPulse {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(255, 107, 107, 0.7);
+    }
+}
+
+.critical-tag {
+    animation: criticalPulse 2s infinite;
+}
+
+@media (max-width: 600px) {
+    .modal-header-with-tag {
+        flex-wrap: wrap;
+    }
+
+    .critical-tag {
+        font-size: 10px;
+        padding: 3px 10px;
+    }
+}
