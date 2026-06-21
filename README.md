@@ -1,0 +1,3 @@
+Crop Advisory Platform is an AgriTech web utility designed to simplify crop lifecycle management for farmers. The system calculates the exact age of the crop in days from the sowing date and visualizes the timeline through an interactive, color-coded progress tracker.
+
+The core innovation lies in the data layer: unstructured agronomic data was scraped from the TNAU (Tamil Nadu Agricultural University) Portal, processed through NotebookLM, organized in Excel, and compiled into a structured JSON advisory schema. The platform provides localized, stage-specific insights (Irrigation depths, Fertilizers, Pest Watch, and Disease risks) alongside critical stage alerts, ensuring farmers can optimize crop yields directly from their mobile web browsers.
