@@ -1,3 +1,16 @@
+:root {
+    --primary: #0D3A35;
+    --secondary: #327615;
+    --accent: #276152;
+    --muted: #B1B7AB;
+    --bg-main: #FBF6F0;
+    --bg-card: #ffffff;
+    --text-main: #0D3A35;
+    --text-muted: #5a6e69;
+    --border: #B1B7AB;
+    --gradient-primary: linear-gradient(135deg, #0D3A35 0%, #327615 100%);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,31 +19,32 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: linear-gradient(135deg, #304087 0%, #8528e1 100%);
+    background: linear-gradient(135deg, var(--bg-main) 0%, #E8EFE9 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    color: var(--text-main);
 }
 
 .container {
-    background: white;
+    background: var(--bg-card);
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 40px rgba(13, 58, 53, 0.08);
     padding: 40px;
     width: 100%;
     max-width: 600px;
 }
 
 h1 {
-    color: #333;
+    color: var(--primary);
     margin-bottom: 10px;
     font-size: 28px;
 }
 
 .subtitle {
-    color: #666;
+    color: var(--text-muted);
     margin-bottom: 30px;
     font-size: 14px;
 }
@@ -49,7 +63,7 @@ form {
 
 label {
     font-weight: 600;
-    color: #333;
+    color: var(--primary);
     font-size: 14px;
 }
 
@@ -65,7 +79,7 @@ input[type="date"],
 input[type="number"],
 select {
     padding: 12px 14px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border);
     border-radius: 6px;
     font-size: 14px;
     font-family: inherit;
@@ -79,8 +93,8 @@ input[type="date"]:focus,
 input[type="number"]:focus,
 select:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(39, 97, 82, 0.1);
 }
 
 input:invalid:not(:placeholder-shown),
@@ -110,7 +124,7 @@ select:invalid {
 
 /* Explicitly styling your new Register Button ID */
 #registerBtn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     color: white;
     border: none;
     padding: 14px 28px;
@@ -125,7 +139,7 @@ select:invalid {
 
 #registerBtn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 20px rgba(13, 58, 53, 0.25);
 }
 
 #registerBtn:active {
@@ -174,7 +188,7 @@ select:invalid {
 }
 
 .stage-dot:hover:not(.active):not(.completed) {
-    border-color: #667eea;
+    border-color: var(--secondary);
     background: #f0f0f0;
     transform: scale(1.1);
 }
@@ -283,7 +297,7 @@ select:invalid {
 }
 
 .modal-advisory-section h3 {
-    color: #667eea;
+    color: var(--secondary);
     font-size: 14px;
     text-transform: uppercase;
     margin: 0 0 8px 0;
@@ -371,7 +385,7 @@ select:invalid {
 
 /* Edit Profile Button */
 .edit-profile-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     color: white;
     border: none;
     padding: 8px 16px;
@@ -386,7 +400,7 @@ select:invalid {
 
 .edit-profile-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(13, 58, 53, 0.2);
 }
 
 /* Linear Progress Bar */
@@ -544,7 +558,7 @@ select:invalid {
 
 .save-btn {
     flex: 1;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     color: white;
     border: none;
     padding: 12px 24px;
@@ -557,7 +571,7 @@ select:invalid {
 
 .save-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 20px rgba(13, 58, 53, 0.25);
 }
 
 .cancel-btn {

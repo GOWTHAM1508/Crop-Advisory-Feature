@@ -168,6 +168,7 @@ document.getElementById('cancelEditBtn')?.addEventListener('click', closeEditMod
 
 // Back button handler
 document.querySelector('.back-btn')?.addEventListener('click', () => {
+  localStorage.removeItem('farmerProfile');
   window.location.href = 'index.html';
 });
 

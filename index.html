@@ -134,42 +134,12 @@
             <button type="submit" id="registerBtn">Register</button>
         </form>
     </div>
-</body>
-</html>
-      <script src="app.js"></script>
-      
-      <script>// 1. On page load: if already registered, skip to dashboard
- 
- if (localStorage.getItem('farmerProfile')) {
-  window.location.href = 'dashboard.html';
-}
-
-// 2. Set max date on sowing date input to today
-document.getElementById('sowingDate').max = new Date().toISOString().split('T')[0];
-
-// 3. On submit button click:
-document.getElementById('registerBtn').addEventListener('click', function() {
-  // collect values
-  const name = document.getElementById('name').value;
-  const mobile = document.getElementById('mobile').value;
-  const crop = document.getElementById('crop').value;
-  const sowingDate = document.getElementById('sowingDate').value;
-  const district = document.getElementById('district').value;
-  const area = document.getElementById('area').value;
-  const language = document.getElementById('language').value;
-
-  // validate: check none are empty
-  if (!name || !mobile || !crop || !sowingDate || !district || !area || !language) {
-    alert('Please fill all fields.');
-    return;
-  }
-
-  // save to localStorage
-  const profile = { name, mobile, crop, sowingDate, district, area, language };
-  localStorage.setItem('farmerProfile', JSON.stringify(profile));
-
-  // redirect to dashboard
-  window.location.href = 'dashboard.html';
-});</script>
+    <script src="app.js"></script>
+    <script>
+        // On page load: if already registered, skip to dashboard
+        if (localStorage.getItem('farmerProfile')) {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
 </body>
 </html>

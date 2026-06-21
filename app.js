@@ -75,12 +75,12 @@ function initRegistrationForm() {
 
   function saveFarmerProfile() {
     const profile = {
-      name: document.getElementById('farmerName').value,
-      mobileNumber: document.getElementById('mobileNumber').value,
+      name: document.getElementById('name').value,
+      mobileNumber: document.getElementById('mobile').value,
       crop: document.getElementById('crop').value,
       sowingDate: document.getElementById('sowingDate').value,
       district: document.getElementById('district').value,
-      landArea: document.getElementById('landArea').value,
+      landArea: document.getElementById('area').value,
       language: document.getElementById('language').value
     };
     localStorage.setItem('farmerProfile', JSON.stringify(profile));
@@ -117,67 +117,3 @@ function initRegistrationForm() {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', initRegistrationForm);
-
-//dashboard.html js
-function initDashboard() {
-  const profile = getFarmerProfile();
-
-  if (!profile) {
-    window.location.href = 'index.html';
-    return;
-  }
-
-  // Fetch advisory data from JSON
-  fetch('advisory.json')
-    .then(res => res.json())
-    .then(advisoryData => {
-      const daysSinceSowing = getDaysSinceSowing(profile.sowingDate);
-      const cropCode = profile.crop.toLowerCase();
-      const stages = advisoryData[cropCode] || [];
-      const currentStage = getCurrentStage(stages, daysSinceSowing);
-
-      // Render farmer info
-      document.getElementById('farmer-name').textContent = `Hello, ${profile.name}`;
-      document.getElementById('crop-badge').textContent = profile.crop;
-      document.getElementById('days-count').textContent = `${daysSinceSowing} days since sowing`;
-      document.getElementById('stage-name').textContent = currentStage.name;
-
-      // Dynamically create progress bar dots
-      const progressBar = document.getElementById('progress-bar');
-      progressBar.innerHTML = ''; // Clear existing dots
-      stages.forEach((stage, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'stage-dot';
-        dot.id = `stage-dot-${i + 1}`;
-
-        if (stage.stage < currentStage.stage) {
-          dot.classList.add('completed');
-          dot.innerHTML = '✓';
-        } else if (stage.stage === currentStage.stage) {
-          dot.classList.add('active');
-        }
-
-        progressBar.appendChild(dot);
-      });
-
-      // Render advisory preview (first 80 chars from fertilizer advice)
-      const preview = currentStage.fertilizer.substring(0, 80);
-      document.getElementById('advisory-preview').textContent = preview + (preview.length < currentStage.fertilizer.length ? '...' : '');
-
-      // Show NEW badge if today is first day of stage
-      if (daysSinceSowing === currentStage.day_start) {
-        document.getElementById('new-badge').style.display = 'inline-block';
-      }
-
-      // Link to full advisory
-      const advisoryLink = document.getElementById('advisory-link');
-      advisoryLink.href = `advisory.html?crop=${cropCode}&stage=${currentStage.stage}`;
-    })
-    .catch(err => {
-      console.error('Failed to load advisory data:', err);
-      document.getElementById('advisory-preview').textContent = 'Unable to load advisory data.';
-    });
-}
-
-// Initialize dashboard when DOM is ready
-document.addEventListener('DOMContentLoaded', initDashboard);
